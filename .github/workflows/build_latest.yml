@@ -4,6 +4,7 @@ on: push
   #push:
   #  tags:
   #    - "v*.*.*"
+
   #workflow_dispatch:
   #  inputs:
   #    doRelease:
