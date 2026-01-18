@@ -470,7 +470,7 @@ internal class HLSExtractor : IExtractor
                 List<MediaPart> cntLarge = [];
                 foreach (MediaPart part in mediaParts)
                 {
-                    if(part.Count > 0 && part.Count < 8) //@假设BC广告ts总数小于8
+                    if(part.MediaSegments.Count > 0 && part.MediaSegments.Count < 8) //@假设BC广告ts总数小于8
                     {
                         cntSmall.Add(part);
                     }
