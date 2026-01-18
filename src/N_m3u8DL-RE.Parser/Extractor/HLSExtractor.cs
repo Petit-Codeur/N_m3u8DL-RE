@@ -438,7 +438,7 @@ internal class HLSExtractor : IExtractor
             int newCount = 0;
             double newTotalDuration = 0;
             //int part0cnt = parts[0].Count;
-            int tslen = mediaParts[0][0].Url.Length;//int tslen = 0;//
+            int tslen = mediaParts[0].MediaSegments[0].Url.Length;//int tslen = 0;//
             bool gotBC = false; //@是否含有BoCai广告
             //JArray newParts = new JArray();
             List<MediaPart> newParts = [];
