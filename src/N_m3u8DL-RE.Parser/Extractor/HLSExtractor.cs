@@ -431,6 +431,82 @@ internal class HLSExtractor : IExtractor
             });
         }
 
+        ////////////////////////////////////
+        //@尝试删除BoCai广告
+        if(mediaParts.Count > 1) //@BoCai广告都含有#EXT-X-DISCONTINUITY
+        {
+            int newCount = 0;
+            double newTotalDuration = 0;
+            //int part0cnt = parts[0].Count;
+            int tslen = mediaParts[0][0].Url.Length;//int tslen = 0;//
+            bool gotBC = false; //@是否含有BoCai广告
+            //JArray newParts = new JArray();
+            List<MediaPart> newParts = [];
+            foreach (MediaPart part in mediaParts)
+            {
+                MediaPart newPart = new();
+                foreach (MediaSegment seg in part)
+                {
+                    if(seg.Url.Length == tslen)
+                    {
+                        newPart.Add(seg);
+                        newCount++;
+                        newTotalDuration += Convert.ToDouble(seg.Duration.ToString());
+                    }
+                    else
+                    {
+                        gotBC = true; //@ts文件名长度不同
+                    }
+                }
+                if (newPart.Count != 0)
+                    newParts.Add(newPart);
+            }
+            if(!gotBC) //@ts文件名长度没有不同
+            {
+                newCount = 0;
+                newTotalDuration = 0;
+                newParts.Clear();
+                List<MediaPart> cntSmall = [];
+                List<MediaPart> cntLarge = [];
+                foreach (MediaPart part in mediaParts)
+                {
+                    if(part.Count > 0 && part.Count < 8) //@假设BC广告ts总数小于8
+                    {
+                        cntSmall.Add(part);
+                    }
+                    else
+                    {
+                        cntLarge.Add(part);
+                    }
+                }
+                if (cntSmall.Count > 0 && cntLarge.Count > 0) //@数量有差异
+                {
+                    gotBC = true;
+                    //newParts = cntLarge;//@bug
+                    foreach( MediaPart part in cntLarge)
+                    {
+                        MediaPart newPart = new();
+                        foreach (MediaSegment seg in part)
+                        {
+                            newPart.Add(seg);
+                            newCount++;
+                            newTotalDuration += Convert.ToDouble(seg.Duration.ToString());
+                        }
+                        if (newPart.Count != 0)
+                            newParts.Add(newPart);
+                    }
+                }
+            }
+            if (gotBC && newParts.Count != 0)
+            {
+                mediaParts = newParts;
+                //jsonM3u8Info["count"] = newCount;
+                //jsonM3u8Info["totalDuration"] = newTotalDuration;
+            }
+        }
+        /////////////////////////////////////////////////////////////////
+
+
         playlist.MediaParts = mediaParts;
         playlist.IsLive = !isEndlist;
 
