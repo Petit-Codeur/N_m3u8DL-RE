@@ -26,7 +26,7 @@ env:
   DOTNET_SDK_VERSION: "10.0.101"
   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
   doRelease: true
-  tag: v0.5.1-NoBC
+  tag: "v0.5.1-NoBC"
   ref: "main"
 
 jobs:
