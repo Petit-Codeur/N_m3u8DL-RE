@@ -445,7 +445,7 @@ internal class HLSExtractor : IExtractor
             foreach (MediaPart part in mediaParts)
             {
                 MediaPart newPart = new();
-                foreach (MediaSegment seg in part)
+                foreach (MediaSegment seg in part.MediaSegments)
                 {
                     if(seg.Url.Length == tslen)
                     {
@@ -486,7 +486,7 @@ internal class HLSExtractor : IExtractor
                     foreach( MediaPart part in cntLarge)
                     {
                         MediaPart newPart = new();
-                        foreach (MediaSegment seg in part)
+                        foreach (MediaSegment seg in part.MediaSegments)
                         {
                             newPart.MediaSegments.Add(seg);
                             newCount++;
