@@ -449,7 +449,7 @@ internal class HLSExtractor : IExtractor
                 {
                     if(seg.Url.Length == tslen)
                     {
-                        newPart.Add(seg);
+                        newPart.MediaSegments.Add(seg);
                         newCount++;
                         newTotalDuration += Convert.ToDouble(seg.Duration.ToString());
                     }
@@ -458,7 +458,7 @@ internal class HLSExtractor : IExtractor
                         gotBC = true; //@ts文件名长度不同
                     }
                 }
-                if (newPart.Count != 0)
+                if (newPart.MediaSegments.Count != 0)
                     newParts.Add(newPart);
             }
             if(!gotBC) //@ts文件名长度没有不同
@@ -488,11 +488,11 @@ internal class HLSExtractor : IExtractor
                         MediaPart newPart = new();
                         foreach (MediaSegment seg in part)
                         {
-                            newPart.Add(seg);
+                            newPart.MediaSegments.Add(seg);
                             newCount++;
                             newTotalDuration += Convert.ToDouble(seg.Duration.ToString());
                         }
-                        if (newPart.Count != 0)
+                        if (newPart.MediaSegments.Count != 0)
                             newParts.Add(newPart);
                     }
                 }
